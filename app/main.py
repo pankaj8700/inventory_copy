@@ -16,3 +16,11 @@ app.include_router(vc.router)
 @app.get("/")
 def main():
     return {"message": "Welcome to inventory management system"}
+
+if __name__ == "__main__":
+    import uvicorn
+    import os
+
+    # Use the PORT environment variable if available, otherwise default to 8000
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
