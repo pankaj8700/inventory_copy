@@ -1,26 +1,24 @@
 from typing import List
+
 from fastapi import BackgroundTasks, FastAPI
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
 from pydantic import BaseModel, EmailStr
 from starlette.responses import JSONResponse
-from dotenv import load_dotenv
-import os
 
-# Load environment variables from .env file
-load_dotenv()
+
 
 class EmailSchema(BaseModel):
     email: List[EmailStr]
 
-# Fetch email configuration from environment variables
+
 conf = ConnectionConfig(
-    MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
-    MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
-    MAIL_FROM=os.getenv("MAIL_FROM"),
-    MAIL_PORT=int(os.getenv("MAIL_PORT", 587)),  # Default to 587 if not set
-    MAIL_SERVER=os.getenv("MAIL_SERVER"),
-    MAIL_STARTTLS=os.getenv("MAIL_STARTTLS", "True") == "True",
-    MAIL_SSL_TLS=os.getenv("MAIL_SSL_TLS", "False") == "True",
-    USE_CREDENTIALS=os.getenv("USE_CREDENTIALS", "True") == "True",
-    VALIDATE_CERTS=os.getenv("VALIDATE_CERTS", "True") == "True"
+    MAIL_USERNAME ="pankajku.8700@gmail.com",
+    MAIL_PASSWORD = "asmxjbitlkjtscth",
+    MAIL_FROM = "pankajku.8700@gmail.com",
+    MAIL_PORT = 587,
+    MAIL_SERVER = "smtp.gmail.com",
+    MAIL_STARTTLS = True,
+    MAIL_SSL_TLS = False,
+    USE_CREDENTIALS = True,
+    VALIDATE_CERTS = True
 )
