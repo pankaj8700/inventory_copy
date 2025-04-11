@@ -6,7 +6,7 @@ from models.indent import Indent, IndentCreate, IndentResponse
 import logging
 from fastapi.responses import JSONResponse
 from fastapi_mail import FastMail, MessageSchema, MessageType
-
+from typing import List
 from utils.mail import conf
 
 
@@ -29,6 +29,7 @@ async def create_request(request: RequestCreate, session: Session = Depends(get_
             RequestItem(
                 item_name=item.item_name,
                 qty=item.qty,
+                description=item.description,
                 request_id=request_model.request_id  # Fixed foreign key
             )
             for item in request.items
@@ -83,7 +84,7 @@ def get_request_with_items(request_id: int, campus_name: str, session: Session =
             status_code=status.HTTP_404_NOT_FOUND, detail="Request not found")
     return request
 
-@router.get("/get_history/{campus_name}", tags=["Clg_Stock"])
+@router.get("/get_history/{campus_name}", response_model=List[RequestIssueResponse])
 def get_history(campus_name: str, session: Session = Depends(get_session)):
     try:        
         requests = session.exec(select(Request).where(Request.campus_name == campus_name)).all()

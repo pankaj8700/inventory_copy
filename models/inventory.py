@@ -26,10 +26,12 @@ class Request(RequestBase, table=True):
 class RequestItemBase(SQLModel):
     item_name: str
     qty: int = Field(gt=0, description="Quantity must be greater than 0")
+    description: Optional[str] = Field(default=None, description="Description of the item", max_length=100)
 
 class RequestItem(RequestItemBase, table=True):
     item_id: int = Field(default=None, primary_key=True)
     request_id: int = Field(default=None, foreign_key="request.request_id")
+    description: Optional[str] = Field(default=None)
     request: Optional["Request"] = Relationship(back_populates="items")
 
 class ReqIssueBase(SQLModel):
@@ -47,7 +49,7 @@ class RequestResponse(SQLModel):
     campus_name: str
     date_of_request: date
     status: StatusEnum
-    items: List[RequestItemResponse]
+    items: List[RequestItemBase]
     
 class ReqIssueResponse(SQLModel):
     item_name: str
@@ -60,7 +62,7 @@ class RequestIssueResponse(SQLModel):
     date_of_request: date
     status: StatusEnum
     reason: Optional[str]
-    items: List[RequestItemResponse]
+    items: List[RequestItemBase]
     issued: List[ReqIssueResponse]
     
 class RequestItemResponse(SQLModel):
