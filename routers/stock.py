@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from database import get_session
 from models.stock import Stock, Item, StockBase, StockCreate, StockResponse, RequestResponse, RequestIssueResponse, ReqIssueBase, StatusEnum, ReqIssueResponse
 from typing import List
-from models.inventory import Request, ReqIssue
+from models.inventory import Request, ReqIssue, RequestIssueResponse2
 from datetime import date
 import logging
 from fastapi.responses import JSONResponse
@@ -179,3 +179,9 @@ async def reject_request(request_id: int, reason: str, session: Session = Depend
         # Rollback the transaction if an error occurs
         session.rollback()
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An error occurred: {str(e)}")
+    
+@router.get("/all_issued_items", response_model=List[RequestIssueResponse2], tags=["Central_Stock"])
+async def get_issued_items(session: Session = Depends(get_session)):
+    issued_items = session.exec(select(Request)).all()
+    return issued_items
+    

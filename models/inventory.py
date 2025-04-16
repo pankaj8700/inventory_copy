@@ -65,6 +65,14 @@ class RequestIssueResponse(SQLModel):
     items: List[RequestItemBase]
     issued: List[ReqIssueResponse]
     
+class RequestIssueResponse2(SQLModel):
+    request_id: int
+    campus_name: str
+    date_of_request: date
+    date_of_approval: date
+    issued: List[ReqIssueResponse]
+    
+    
 class RequestItemResponse(SQLModel):
     item_name: str
     qty: int = Field(gt=0)

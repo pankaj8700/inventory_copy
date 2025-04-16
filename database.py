@@ -17,7 +17,7 @@ import os
 # DB_url = f"mysql+pymysql://{mysql_username}:{encoded_password}@{mysql_host}:{mysql_port}/{mysql_database}"
 # engine = create_engine(DB_url, echo=True)
 # sqlite_file_name = "database.db"  # SQLite database file
-# sqlite_url = f"sqlite:///{sqlite_file_name}"  # SQLite connection URL
+# DATABASE_URL = f"sqlite:///{sqlite_file_name}"  # SQLite connection URL
 
 # PostgreSQL database configuration
 DATABASE_URL = os.getenv("DB_URL") 
