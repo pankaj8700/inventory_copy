@@ -90,3 +90,8 @@ class ReqIssueBase(SQLModel):
     item_name: str
     qty: int = Field(gt=0)
     Item_Type: ItemTypeEnum
+    
+class CountsResponse(SQLModel):
+    Approved: int
+    Rejected: int
+    Pending: int
