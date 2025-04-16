@@ -13,7 +13,7 @@ class StatusEnum(str,enum.Enum):
     Rejected= "Rejected"
 
 class StockBase(SQLModel):
-    gem_id: int = Field(primary_key=True)
+    gem_id: int = Field(primary_key=True, index=True)
     vendor_name: str
     date_of_order: date
     date_of_purchase: date
@@ -29,7 +29,7 @@ class ItemBase(SQLModel):
     item_price: float
 
 class Item(ItemBase, table=True):
-    item_id: int = Field(default=None, primary_key=True)
+    item_id: int = Field(default=None, primary_key=True, index=True)
     stock_id: Optional[int] = Field(default=None, foreign_key="stock.gem_id")
     stock: Optional[Stock] = Relationship(back_populates="items")
     

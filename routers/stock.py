@@ -135,7 +135,7 @@ async def issue_request(request_id: int, issue: List[ReqIssueBase], session: Ses
 
     return request
 
-@router.post("/reject_request/{request_id}/{reason}", response_model=RequestIssueResponse, tags=["Central_Stock"])
+@router.post("/reject_request/{request_id}/{reason}", response_model=RequestIssueResponse, tags=["Central_Stock"],response_model_exclude={"issued"})
 async def reject_request(request_id: int, reason: str, session: Session = Depends(get_session)):
     try:
         # Fetch the request from the database
@@ -182,6 +182,8 @@ async def reject_request(request_id: int, reason: str, session: Session = Depend
     
 @router.get("/all_issued_items", response_model=List[RequestIssueResponse2], tags=["Central_Stock"])
 async def get_issued_items(session: Session = Depends(get_session)):
-    issued_items = session.exec(select(Request)).all()
+    issued_items = session.exec(select(Request).where(Request.status == "Approved")).all()
+    if issued_items is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No issued items found")
     return issued_items
     

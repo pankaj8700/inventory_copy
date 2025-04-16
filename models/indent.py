@@ -8,7 +8,7 @@ class IndentBase(SQLModel):
     Item_Type: str
 
 class Indent(IndentBase, table=True):
-    indent_id: int = Field(default=None, primary_key=True)
+    indent_id: int = Field(default=None, primary_key=True, index= True)
     date_of_indent: date = Field(default_factory=date.today)
     
     

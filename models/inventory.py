@@ -16,7 +16,7 @@ class RequestBase(SQLModel):
     reason: Optional[str]
 
 class Request(RequestBase, table=True):
-    request_id: int = Field(default=None, primary_key=True)
+    request_id: int = Field(default=None, primary_key=True, index= True)
     date_of_request: date = Field(default_factory=date.today)
     status: StatusEnum = Field(default=StatusEnum.Pending)
     date_of_approval: Optional[date] = Field(default=None)
@@ -29,7 +29,7 @@ class RequestItemBase(SQLModel):
     description: Optional[str] = Field(default=None, description="Description of the item", max_length=100)
 
 class RequestItem(RequestItemBase, table=True):
-    item_id: int = Field(default=None, primary_key=True)
+    item_id: int = Field(default=None, primary_key=True, index= True)
     request_id: int = Field(default=None, foreign_key="request.request_id")
     description: Optional[str] = Field(default=None)
     request: Optional["Request"] = Relationship(back_populates="items")
@@ -40,7 +40,7 @@ class ReqIssueBase(SQLModel):
     Item_Type: str
 
 class ReqIssue(ReqIssueBase, table=True):
-    issue_id: int = Field(default=None, primary_key=True)
+    issue_id: int = Field(default=None, primary_key=True, index=True)
     request_id: int = Field(default=None, foreign_key="request.request_id")
     request: Optional[Request] = Relationship(back_populates="issued")
     
