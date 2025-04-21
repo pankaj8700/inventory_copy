@@ -14,6 +14,27 @@ async def get_all_requests(session: Session = Depends(get_session)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No requests found")
     return requests
 
+@router.get("/all_approved", response_model=List[RequestIssueResponse])
+async def get_all_approved(session: Session = Depends(get_session)):
+    request = session.exec(select(Request).where(Request.status == "Approved")).all()
+    if request is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No requests found")
+    return request
+
+@router.get("/all_rejected", response_model=List[RequestIssueResponse])
+async def get_all_rejected(session: Session = Depends(get_session)):
+    request = session.exec(select(Request).where(Request.status == "Rejected")).all()
+    if request is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No requests found")
+    return request
+
+@router.get("/all_pending", response_model=List[RequestIssueResponse])
+async def get_all_pending(session: Session = Depends(get_session)):
+    request = session.exec(select(Request).where(Request.status == "Pending")).all()
+    if request is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No requests found")
+    return request
+
 @router.get("/counts", response_model=CountsResponse, tags=["VC"])
 async def get_counts(session: Session = Depends(get_session)):
     approved_items = session.exec(
